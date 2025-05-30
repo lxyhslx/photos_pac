@@ -20,19 +20,18 @@ headers = {
 response = requests.get(url, headers=headers)
 if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
-#    with open('output.txt', 'w', encoding='utf-8') as file:
-#        file.write(response.text)
-#    print(response.text)
-    infos = soup.find_all('div', class_='entry-media')
-    for info in infos:
-        cover = re_url(info.find('img').get('data-src'))
-        link = info.find('a')['href']
-        title = info.find('img').get('alt')
-        issuer = m_text(title,'[',']')
-        pic_num = m_text(title,' [','P')
-        pic_date = re_date(title)
-        order = m_text(title,pic_date+' ',' ')
-        people = m_text(title, order+' ', ' [')
-        print(f"链接: {link}\n标题: {title}\n封面: {cover}\n发行机构: {issuer}\n发行时间: {pic_date}\n序列号: {order}\n模特: {people}\n图片数量: {pic_num}\n")
+    with open('log.txt', 'w', encoding='utf-8') as file:
+        infos = soup.find_all('div', class_='entry-media')
+        for info in infos:
+            cover = re_url(info.find('img').get('data-src'))
+            link = info.find('a')['href']
+            title = info.find('img').get('alt')
+            issuer = m_text(title,'[',']')
+            pic_num = m_text(title,' [','P')
+            pic_date = re_date(title)
+            order = m_text(title,pic_date+' ',' ')
+            people = m_text(title, order+' ', ' [')
+            file.write(f"链接: {link}\n标题: {title}\n封面: {cover}\n发行机构: {issuer}\n发行时间: {pic_date}\n序列号: {order}\n模特: {people}\n图片数量: {pic_num}\n")
+            print(f"链接: {link}\n标题: {title}\n封面: {cover}\n发行机构: {issuer}\n发行时间: {pic_date}\n序列号: {order}\n模特: {people}\n图片数量: {pic_num}\n")
 else:
     print(f"未找到网页，请查看网络连接: {response.status_code}")
