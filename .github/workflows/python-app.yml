@@ -5,6 +5,8 @@ name: Python application
 
 on:
   push:
+    branches:
+      - 'main'
     paths:
       - 'python-app.yml'
 permissions:
