@@ -8,7 +8,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'python-app.yml'
+      - '**.yml'
 permissions:
   contents: write
   pull-requests: write
