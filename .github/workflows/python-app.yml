@@ -6,7 +6,7 @@ name: Python application
 on:
   push:
     paths:
-      - '/.github/workflows/python-app.yml'
+      - 'python-app.yml'
 permissions:
   contents: write
   pull-requests: write
