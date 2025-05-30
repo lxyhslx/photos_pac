@@ -1,4 +1,5 @@
 import re
+import configparser
 import requests
 from bs4 import BeautifulSoup
 def m_text(text, start_str, end_str):
@@ -13,7 +14,10 @@ def re_date(text):
         return match.group()
     else:
         None
-url="https://www.lss77.com/zx/qc/page/2"
+cf = configparser.ConfigParser()
+cf.read('config.ini')
+page= cf.get('settings', 'page')
+url="https://www.lss77.com/zx/qc/page/" + page
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.3"
 }
@@ -33,5 +37,9 @@ if response.status_code == 200:
             people = m_text(title, order+' ', ' [')
             file.write(f"链接: {link}\n标题: {title}\n封面: {cover}\n发行机构: {issuer}\n发行时间: {pic_date}\n序列号: {order}\n模特: {people}\n图片数量: {pic_num}\n")
             print(f"链接: {link}\n标题: {title}\n封面: {cover}\n发行机构: {issuer}\n发行时间: {pic_date}\n序列号: {order}\n模特: {people}\n图片数量: {pic_num}\n")
+    page = int(page)+1
+    cf.set('settings', 'page', str(page))
+    with open('config.ini', 'w') as configfile:
+        cf.write(configfile)
 else:
     print(f"未找到网页，请查看网络连接: {response.status_code}")
