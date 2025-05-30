@@ -45,7 +45,7 @@ jobs:
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git add ./output.log
-        git add ./config.ini
-        git commit -m "Update log [skip ci]" || echo "No changes to commit"
+        git add .
+        git reset -- ./.github/workflow/Python-app.yaml
+        git commit -m "Update all files except a.yaml [skip ci]" || echo "No changes to commit"
         git push
