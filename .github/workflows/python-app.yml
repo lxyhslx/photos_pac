@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build:
@@ -34,5 +35,15 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run main.py
-      run: python main.py >> output.log
-
+      run: python main.py > output.log 2>&1
+    - name: Upload log
+      uses: actions/upload-artifact@v3
+      with:
+        name: python-output
+        path: output.log
+    - name: Push file
+      run: |
+        git pull --rebase
+        git add output.log
+        git commit -m "Add python output" || echo "No changes to commit"
+        git push
