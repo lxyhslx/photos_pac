@@ -37,6 +37,27 @@ def download_image(url,dir,filename):
             print(f"下载失败，HTTP状态码：{response.status_code}")
     except Exception as e:
         print(f"发生错误：{str(e)}")
+def load_blacklist(file_path):
+    """
+    从指定文件加载黑名单词汇
+    :param file_path: 文件路径
+    :return: 黑名单词汇集合
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return {line.strip() for line in f if line.strip()}
+    except FileNotFoundError:
+        print(f"警告：黑名单文件 {file_path} 未找到")
+        return set()
+
+def word_blacklist(text, word_set):
+    """
+    检查文本是否包含黑名单词汇
+    :param text: 待检查文本
+    :param word_set: 黑名单词汇集合
+    :return: 是否包含黑名单词
+    """
+    return any(word.lower() in text.lower() for word in word_set)
 cf = configparser.ConfigParser()
 cf.read('config.ini')
 page= cf.get('settings', 'page')
@@ -47,6 +68,7 @@ headers = {
 response = requests.get(url, headers=headers)
 if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
+    blacklist = load_blacklist('blacklist.txt')
     # 创建下一级目录（若不存在）
     next_dir = os.path.join(os.getcwd(), 'page')
     os.makedirs(next_dir, exist_ok=True)
@@ -61,6 +83,11 @@ if response.status_code == 200:
             cover = re_url(info.find('img').get('data-src'))
             link = info.find('a')['href']
             title = info.find('img').get('alt')
+            if contains_blacklist(test_text, blacklist):
+                print("⚠️ 文本包含黑名单词汇")
+                continue
+            else:
+                print("✅ 文本通过检查")
             issuer = m_text(title,'[',']').upper()
             pic_num = m_text(title,'[','P').strip()
             pic_date = re_date(title)
