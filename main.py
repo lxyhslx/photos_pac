@@ -61,7 +61,7 @@ def word_blacklist(text, word_set):
 cf = configparser.ConfigParser()
 cf.read('config.ini')
 page= cf.get('settings', 'page')
-page_max= cf.get('settings', 'max')
+page_max= cf.get('settings', 'page_max')
 if int(page) > int(page_max):
     exit()
 url="https://www.lss77.com/zx/qc/page/" + page
