@@ -61,7 +61,7 @@ if response.status_code == 200:
             cover = re_url(info.find('img').get('data-src'))
             link = info.find('a')['href']
             title = info.find('img').get('alt')
-            issuer = m_text(title,'[',']')
+            issuer = m_text(title,'[',']').upper()
             pic_num = m_text(title,'[','P').strip()
             pic_date = re_date(title)
             cover_date = pic_date.replace(".", "")
