@@ -62,7 +62,7 @@ if response.status_code == 200:
             link = info.find('a')['href']
             title = info.find('img').get('alt')
             issuer = m_text(title,'[',']')
-            pic_num = m_text(title,' [','P')
+            pic_num = m_text(title,'[','P').strip()
             pic_date = re_date(title)
             cover_date = pic_date.replace(".", "")
             order = m_text(title,pic_date+' ',' ')
