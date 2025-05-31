@@ -66,7 +66,7 @@ if response.status_code == 200:
             pic_date = re_date(title)
             cover_date = pic_date.replace(".", "")
             order = m_text(title,pic_date+' ',' ')
-            model = m_text(title, order+' ', ' [')
+            model = m_text(title, order+' ', '[').strip()
             file.write(f"[{n}]\nlink = {link}\ntitle = {title}\ncover = {cover}\nissuer = {issuer}\ndate = {pic_date}\norder = {order}\nmodel = {model}\nnum = {pic_num}\n")
             issuer_dir = os.path.join(images_dir, issuer)
             os.makedirs(issuer_dir, exist_ok=True)
