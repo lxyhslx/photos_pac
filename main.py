@@ -83,7 +83,7 @@ if response.status_code == 200:
             cover = re_url(info.find('img').get('data-src'))
             link = info.find('a')['href']
             title = info.find('img').get('alt')
-            if contains_blacklist(title, blacklist):
+            if word_blacklist(title, blacklist):
                 print("⚠️ 文本包含黑名单词汇")
                 continue
             else:
