@@ -1,8 +1,8 @@
 name: Python application
 on:
-  schedule:
+  #schedule:
     # 每小时的第0/12/24/36/48分钟各执行一次
-    - cron: '12,25,35,46,59 * * * *'
+    #- cron: '12,25,35,46,59 * * * *'
   push:
     branches:
       - 'main'
