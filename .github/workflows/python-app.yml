@@ -8,6 +8,7 @@ on:
       - 'main'
     paths:
       - '**.yml'
+      - 'blacklist.txt'
 permissions:
   contents: write
   pull-requests: write
